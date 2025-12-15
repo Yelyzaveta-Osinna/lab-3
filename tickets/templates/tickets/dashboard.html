@@ -1,0 +1,27 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<div style="padding: 20px;">
+    <h1>Аналітичний Дашборд</h1>
+    
+    <div style="background: #f0f0f0; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <form method="get">
+            <label>Фільтр для Графіка №1 (Мін. прибуток): </label>
+            <input type="number" name="min_revenue" placeholder="Наприклад: 500">
+            <button type="submit" style="background: #390650; color: white; border: none; padding: 5px 15px; cursor: pointer;">
+                Застосувати
+            </button>
+            <a href="{% url 'dashboard' %}" style="margin-left: 10px;">Скинути</a>
+        </form>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+        <div>{{ graphs.g1|safe }}</div>
+        <div>{{ graphs.g2|safe }}</div>
+        <div>{{ graphs.g3|safe }}</div>
+        <div>{{ graphs.g4|safe }}</div>
+        <div>{{ graphs.g5|safe }}</div>
+        <div>{{ graphs.g6|safe }}</div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'web/base.html' %}
+{% block content %}
+<h1>Дашборд v1</h1>
+<form method="get" style="margin-bottom: 20px;">
+    <input type="number" name="min_revenue" placeholder="Мін. прибуток">
+    <button type="submit">Фільтрувати</button>
+    <a href="{% url 'dashboard' %}">Скинути</a>
+</form>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>{{ graphs.g1|safe }}</div>
+    <div>{{ graphs.g2|safe }}</div>
+    <div>{{ graphs.g3|safe }}</div>
+    <div>{{ graphs.g4|safe }}</div>
+    <div>{{ graphs.g5|safe }}</div>
+    <div>{{ graphs.g6|safe }}</div>
+</div>
+{% endblock %}

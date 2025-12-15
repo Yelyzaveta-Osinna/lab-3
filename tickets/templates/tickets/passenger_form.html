@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/min.css' %}">
+    <title>Форма пасажира</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Пасажир</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Зберегти</button>
+        </form>
+        <a href="{% url 'passenger_list' %}">Назад</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/min.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+    <!-- trip_list.html -->
+        <h1>Квитки</h1>
+        <a href="{% url 'ticket_add' %}">Зареєструвати квиток</a>
+        <table id="ticketsTable">
+            <tr>
+                <th onclick="sortTable(0)">№ квитка</th>
+                <th onclick="sortTable(1)">Початкова станція</th>
+                <th onclick="sortTable(2)">Відправлення</th>
+                <th onclick="sortTable(3)">Кінцева станція</th>
+                <th onclick="sortTable(4)">Прибуття</th>
+                <th onclick="sortTable(5)">Вартість</th>
+            </tr>
+            {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.trip.start_station }}</td>
+                <td>{{ ticket.trip.departure }}</td>
+                <td>{{ ticket.trip.end_station }}</td>
+                <td>{{ ticket.trip.arrival }}</td>
+                <!-- <td>{{ ticket.base_price_id }}</td> -->
+                <td><a style="text-decoration: none; border:none;" href="{% url 'ticket_details' ticket.id%}">Деталі</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <a href="{% url 'home' %}">Назад</a>
+    </div>  
+
+    <script src="{% static 'js/sortTickets.js' %}"></script>
+</body>
+</html>

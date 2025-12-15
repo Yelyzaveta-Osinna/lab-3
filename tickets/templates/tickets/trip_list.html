@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/min.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <!-- trip_list.html -->
+        <h1>Поїздки</h1>
+        <table id="ticketsTable">
+            <tr>
+                <th onclick="sortTable(0)">ID</th>
+                <th onclick="sortTable(1)">Номер</th>
+                <th onclick="sortTable(2)">Початкова станція</th>
+                <th onclick="sortTable(3)">Відправлення</th>
+                <th onclick="sortTable(4)">Кінцева станція</th>
+                <th onclick="sortTable(5)">Прибуття</th>
+                <th onclick="sortTable(6)">Вартість</th>
+                <th onclick="sortTable(7)">К-ість місць</th>
+            </tr>
+            {% for trip in trips %}
+                <tr>
+                    <td>{{ trip.id }}</td>
+                    <td>{{ trip.number }}</td>
+                    <td>{{ trip.start_station }}</td>
+                    <td>{{ trip.departure }}</td>
+                    <td>{{ trip.end_station }}</td>
+                    <td>{{ trip.arrival }}</td>
+                    <td>{{ trip.price }}</td>
+                    <td>{{ trip.capacity }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="{% url 'home' %}">Назад</a>
+    </div>
+</body>
+</html>

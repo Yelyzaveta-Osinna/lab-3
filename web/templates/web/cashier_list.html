@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/min.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <!-- cashier_list.html -->
+        <h1>Касири</h1>
+        <table id="ticketsTable">
+            <tr>
+                <th onclick="sortTable(0)">ID</th>
+                <th onclick="sortTable(1)">Прізвище та ім'я</th>
+                <th onclick="sortTable(2)">Дата влаштування</th>
+            </tr>
+            {% for cashier in cashiers %}
+                <tr>
+                    <td>{{ cashier.id }}</td>
+                    <td>{{ cashier.full_name }}</td>
+                    <td>{{ cashier.hire_date }}</td>
+                </tr>
+            {% endfor %}
+            
+        </table>
+            <a href="{% url 'home' %}">Назад</a>
+    </div>
+    <script src="{% static 'js/sortTickets.js' %}"></script>
+</body>
+</html>

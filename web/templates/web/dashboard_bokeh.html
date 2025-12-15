@@ -1,0 +1,35 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+{{ resources|safe }}
+
+<h1>Дашборд v2 (Bokeh)</h1>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    
+    <div style="border: 1px solid #eee; padding: 10px;">
+        {% if plots.d1 %} {{ plots.d1|safe }} {{ plots.s1|safe }} {% else %} <p>Немає даних</p> {% endif %}
+    </div>
+
+    <div style="border: 1px solid #eee; padding: 10px;">
+        {% if plots.d2 %} {{ plots.d2|safe }} {{ plots.s2|safe }} {% else %} <p>Немає даних</p> {% endif %}
+    </div>
+
+    <div style="border: 1px solid #eee; padding: 10px;">
+        {% if plots.d3 %} {{ plots.d3|safe }} {{ plots.s3|safe }} {% else %} <p>Немає даних</p> {% endif %}
+    </div>
+
+    <div style="border: 1px solid #eee; padding: 10px;">
+        {% if plots.d4 %} {{ plots.d4|safe }} {{ plots.s4|safe }} {% else %} <p>Немає даних</p> {% endif %}
+    </div>
+
+    <div style="border: 1px solid #eee; padding: 10px;">
+        {% if plots.d5 %} {{ plots.d5|safe }} {{ plots.s5|safe }} {% else %} <p>Немає даних</p> {% endif %}
+    </div>
+
+    <div style="border: 1px solid #eee; padding: 10px;">
+        {% if plots.d6 %} {{ plots.d6|safe }} {{ plots.s6|safe }} {% else %} <p>Немає даних</p> {% endif %}
+    </div>
+
+</div>
+{% endblock %}

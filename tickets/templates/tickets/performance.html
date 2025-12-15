@@ -1,0 +1,27 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<div style="padding: 20px;">
+    <h1>Аналіз продуктивності БД (Multithreading)</h1>
+    
+    <div style="margin-bottom: 20px;">
+        <p>Цей тест виконає 100 запитів до бази даних у різних режимах багатопотоковості (1, 2, 4, 8, 16 потоків).</p>
+        <p>Це дозволяє знайти оптимальні параметри доступу.</p>
+        
+        <form method="get">
+            <button type="submit" name="run_test" value="true" 
+                    style="background: #d9534f; color: white; padding: 10px 20px; border: none; font-size: 16px; cursor: pointer;">
+                🚀 Запустити Стрес-Тест
+            </button>
+        </form>
+    </div>
+
+    {% if graph %}
+        <div style="border: 1px solid #ddd; padding: 10px;">
+            {{ graph|safe }}
+        </div>
+    {% else %}
+        <p>Натисніть кнопку, щоб отримати результати (може зайняти кілька секунд)...</p>
+    {% endif %}
+</div>
+{% endblock %}

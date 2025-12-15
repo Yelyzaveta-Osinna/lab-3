@@ -1,0 +1,17 @@
+{% extends 'web/base.html' %}
+{% block content %}
+<h2>Деталі квитка №{{ ticket.id }}</h2>
+<p>Рейс: {{ ticket.trip }}</p>
+{% if ticket.trip.image %}
+    <img src="{{ ticket.trip.image.url }}" width="200">
+{% endif %}
+<p>Ціна: {{ ticket.paid_amount }}</p>
+
+<a href="{% url 'ticket_edit' ticket.id %}">Редагувати</a>
+
+<hr>
+<form action="{% url 'ticket_delete' ticket.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Видалити цей об'єкт</button>
+</form>
+{% endblock %}

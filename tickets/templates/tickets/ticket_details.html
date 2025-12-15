@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/min.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+    <!-- trip_list.html -->
+        <h1>Деталі про квиток</h1>
+        <table>
+            <tr>
+                <th>№ квитка</th>
+                <th>Пасажир</th>
+                <th>Початк. станція</th>
+                <th>Кінц. станція</th>
+                <th>Вартість</th>
+                <th>Спосіб оплати</th>
+                <th>Відправлення</th>
+                <th>Прибуття</th>
+                <th>Ким продано</th>
+            </tr>
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.passenger }}</td>
+                <td>{{ ticket.trip.start_station }}</td>
+                <td>{{ ticket.trip.end_station }}</td>
+                <td>{{ ticket.base_price }}</td>
+                <td>{{ ticket.payment_method }}</td>
+                <td>{{ ticket.trip.departure }}</td>
+                <td>{{ ticket.trip.arrival }}</td>
+                <td>{{ ticket.cashier }}</td>
+            </tr>
+        </table>
+        <a style="text-decoration: none; border:none;" href="{% url 'ticket_edit' ticket.id%}">Змінити</a>
+        <a href="{% url 'ticket_delete' ticket.id%}">Видалити</a>
+        
+        <a href="{% url 'tickets_list' %}">Назад</a>
+    </div>  
+</body>
+</html>

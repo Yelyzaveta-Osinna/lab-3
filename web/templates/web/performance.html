@@ -1,0 +1,8 @@
+{% extends 'web/base.html' %}
+{% block content %}
+<h1>Тест Швидкодії</h1>
+<form method="get">
+    <button type="submit" name="run" value="1">Запустити Тест (100 запитів)</button>
+</form>
+{% if graph %}{{ graph|safe }}{% endif %}
+{% endblock %}

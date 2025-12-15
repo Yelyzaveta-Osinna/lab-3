@@ -1,0 +1,177 @@
+/* --- ЗМІННІ КОЛЬОРІВ --- */
+:root {
+  --primary: #390650;
+  --primary-hover: #5a1a7a;
+  --button-hover: #df470a;
+  --accent: #ff9800;
+  --bg-body: #f4f6f9;
+  --bg-card: #ffffff;
+  --text-main: #333333;
+  --text-light: #666666;
+  --border: #e0e0e0;
+}
+
+/* --- БАЗОВІ НАЛАШТУВАННЯ --- */
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  margin: 20px;
+  padding: 0;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+nav a:hover,
+a:hover {
+  background-color: var(--primary-hover);
+}
+
+a:hover {
+  color: #fff;
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+/* --- НАВІГАЦІЯ --- */
+nav {
+  background-color: var(--primary);
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  /* Щоб меню не ламалось на малих екранах */
+}
+
+nav a {
+  color: rgba(255, 255, 255, 0.9);
+  margin-right: 15px;
+  font-size: 15px;
+}
+
+nav button {
+  background: var(--accent);
+  color: white;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* --- КОНТЕЙНЕР --- */
+.container {
+  max-width: 1400px;
+  /* Трохи ширше для графіків */
+  margin: 30px auto;
+  padding: 20px;
+}
+
+/* --- КАРТКИ ГРАФІКІВ (GRID ITEM) --- */
+/* Це виправляє проблему з Plotly/Bokeh всередині Grid */
+.container>div>div,
+/* Для div всередині гріда */
+.container form {
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+
+  /* ВАЖЛИВО ДЛЯ ГРАФІКІВ: */
+  min-width: 0;
+  overflow: hidden;
+  /* Обрізає графік, якщо він лізе за межі */
+}
+
+/* --- СІТКА ГРАФІКІВ (GRID CONTAINER) --- */
+/* Перебиваємо inline стилі з HTML */
+div[style*="grid-template-columns"] {
+  display: grid !important;
+  /* Адаптивна сітка: мінімум 500px ширина, інакше перенос */
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)) !important;
+  gap: 25px !important;
+  width: 100%;
+}
+
+/* --- ФОРМИ --- */
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: var(--primary);
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--button-hover);
+}
+
+/* --- ТАБЛИЦІ/СПИСКИ --- */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: white;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+li img {
+  border-radius: 50%;
+  margin-right: 15px;
+  border: 2px solid #eee;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+/* --- ПАГІНАЦІЯ --- */
+.pagination {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.step-links a {
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #ddd;
+  margin: 0 2px;
+  border-radius: 4px;
+}
+
+.current {
+  font-weight: bold;
+  margin: 0 10px;
+}

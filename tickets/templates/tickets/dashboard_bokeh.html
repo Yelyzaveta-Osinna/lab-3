@@ -1,0 +1,38 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.6.2.min.js"></script>
+
+<div style="padding: 20px;">
+    <h1>Аналітичний Дашборд v2 (Bokeh)</h1>
+    <a href="{% url 'dashboard' %}">Перейти на версію v1 (Plotly)</a>
+    <hr>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+        <div class="chart-box">
+            {{ plots.div1|safe }}
+            {{ plots.script1|safe }}
+        </div>
+        <div class="chart-box">
+            {{ plots.div2|safe }}
+            {{ plots.script2|safe }}
+        </div>
+        <div class="chart-box">
+            {{ plots.div3|safe }}
+            {{ plots.script3|safe }}
+        </div>
+        <div class="chart-box">
+            {{ plots.div4|safe }}
+            {{ plots.script4|safe }}
+        </div>
+        <div class="chart-box">
+            {{ plots.div5|safe }}
+            {{ plots.script5|safe }}
+        </div>
+        <div class="chart-box">
+            {{ plots.div6|safe }}
+            {{ plots.script6|safe }}
+        </div>
+    </div>
+</div>
+{% endblock %}

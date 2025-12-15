@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <link rel="stylesheet" href="{% static 'css/min.css' %}">
+
+  <title>Railway</title>
+
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Головна</a> | 
+        <a href="{% url 'tickets_list' %}">Квитки</a> |
+        <a href="{% url 'trip_list' %}">Рейси</a> |
+        <a href="{% url 'dashboard' %}">📊 Графіки v1</a> |
+        <a href="{% url 'dashboard_bokeh' %}">📈 Графіки v2</a> |
+        <a href="{% url 'performance' %}">🚀 Тест</a> |
+        {% if user.is_authenticated %}
+            Привіт, {{ user.username }} 
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %} <button>Вийти</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Вхід</a> | <a href="{% url 'register' %}">Реєстрація</a>
+        {% endif %}
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+    <script>
+        window.addEventListener('load', function() {
+            // 1. Невеликий таймаут, щоб дати CSS гріду побудуватися
+            setTimeout(function() {
+                // 2. Викликаємо подію resize
+                window.dispatchEvent(new Event('resize'));
+            }, 300); // 300 мілісекунд
+
+            // 3. Ще один контрольний постріл через секунду (для повільних з'єднань)
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
