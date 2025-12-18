@@ -120,25 +120,29 @@ class AnalyticsAPIView(APIView):
         analytics_qs = repo.get_complex_analytics()
         response_data = {}
 
-        # Допоміжна функція для безпечної статистики
+        # Допоміжна функція
         def safe_stat(value):
             if pd.isna(value) or value is None:
                 return 0.0
             return float(value)
 
         # --- 1. Прибуток по рейсах ---
+        # (Переконайтесь, що ви виправили repositories.py, щоб там було поле 'tickets_sold')
         df_revenue = pd.DataFrame(list(analytics_qs['revenue_by_trip'].values(
             'start_station', 'end_station', 'total_revenue', 'tickets_sold'
         )))
-        # ЗАМІНЮЄМО None на 0
-        df_revenue = df_revenue.fillna(0) 
+        df_revenue = df_revenue.fillna(0)
         
         if not df_revenue.empty:
             response_data['revenue_by_trip'] = {
                 "data": df_revenue.to_dict(orient="records"),
                 "stats": {
-                    "total_revenue_sum": safe_stat(df_revenue['total_revenue'].sum()),
-                    "avg_ticket_sales": safe_stat(df_revenue['tickets_sold'].mean())
+                    # Основні показники (Revenue)
+                    "total_sum": safe_stat(df_revenue['total_revenue'].sum()),
+                    "mean": safe_stat(df_revenue['total_revenue'].mean()),
+                    "median": safe_stat(df_revenue['total_revenue'].median()), # Медіана
+                    "min": safe_stat(df_revenue['total_revenue'].min()),       # Мінімум
+                    "max": safe_stat(df_revenue['total_revenue'].max()),       # Максимум
                 }
             }
 
@@ -152,8 +156,11 @@ class AnalyticsAPIView(APIView):
             response_data['cashier_performance'] = {
                 "data": df_cashiers.to_dict(orient="records"),
                 "stats": {
-                    "best_cashier": df_cashiers.iloc[0]['last_name'] if not df_cashiers.empty else "N/A",
-                    "avg_sales": safe_stat(df_cashiers['total_sales'].mean())
+                    "mean_sales": safe_stat(df_cashiers['total_sales'].mean()),
+                    "median_sales": safe_stat(df_cashiers['total_sales'].median()),
+                    "min_sales": safe_stat(df_cashiers['total_sales'].min()),
+                    "max_sales": safe_stat(df_cashiers['total_sales'].max()),
+                    "best_cashier": df_cashiers.loc[df_cashiers['total_sales'].idxmax()]['last_name'] if not df_cashiers.empty else "N/A"
                 }
             }
 
@@ -167,7 +174,10 @@ class AnalyticsAPIView(APIView):
             response_data['trip_occupancy'] = {
                 "data": df_occupancy.to_dict(orient="records"),
                 "stats": {
-                    "avg_occupancy": safe_stat(df_occupancy['occupancy_rate'].mean())
+                    "mean_occupancy": safe_stat(df_occupancy['occupancy_rate'].mean()),
+                    "median_occupancy": safe_stat(df_occupancy['occupancy_rate'].median()),
+                    "min_occupancy": safe_stat(df_occupancy['occupancy_rate'].min()),
+                    "max_occupancy": safe_stat(df_occupancy['occupancy_rate'].max()),
                 }
             }
 
@@ -179,10 +189,16 @@ class AnalyticsAPIView(APIView):
 
         if not df_trains.empty:
             response_data['train_type_stats'] = {
-                "data": df_trains.to_dict(orient="records")
+                "data": df_trains.to_dict(orient="records"),
+                "stats": {
+                    # Статистика по ціні квитка серед типів
+                    "max_price_among_types": safe_stat(df_trains['max_ticket_price'].max()),
+                    "avg_age_overall": safe_stat(df_trains['avg_passenger_age'].mean())
+                }
             }
 
         # --- 5. Продажі по місяцях ---
+        # (Переконайтесь, що виправили repositories.py, додавши monthly_revenue)
         df_months = pd.DataFrame(list(analytics_qs['sales_by_month'].values(
             'month', 'monthly_revenue', 'tickets_sold'
         )))
@@ -190,7 +206,11 @@ class AnalyticsAPIView(APIView):
 
         if not df_months.empty:
             response_data['sales_by_month'] = {
-                "data": df_months.to_dict(orient="records")
+                "data": df_months.to_dict(orient="records"),
+                "stats": {
+                    "total_tickets": safe_stat(df_months['tickets_sold'].sum()),
+                    "mean_monthly_revenue": safe_stat(df_months['monthly_revenue'].mean())
+                }
             }
             
         # --- 6. Топ пасажири ---
@@ -201,7 +221,10 @@ class AnalyticsAPIView(APIView):
 
         if not df_passengers.empty:
             response_data['top_passengers'] = {
-                "data": df_passengers.to_dict(orient="records")
+                "data": df_passengers.to_dict(orient="records"),
+                "stats": {
+                    "median_spent_top10": safe_stat(df_passengers['total_spent'].median())
+                }
             }
 
         return Response(response_data)

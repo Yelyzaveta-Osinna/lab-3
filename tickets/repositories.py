@@ -98,11 +98,11 @@ class RepositoryManager:
         return model_manager.filter(id=id).first()
 
     def get_complex_analytics(self):
-        """6 складних запитів для Лаби 4"""
         return {
-            # 1. Прибуток по рейсах
+            # 1. Прибуток по рейсах (Додано tickets_sold)
             'revenue_by_trip': Trip.objects.annotate(
-                total_revenue=Sum('tickets__paid_amount')
+                total_revenue=Sum('tickets__paid_amount'),
+                tickets_sold=Count('tickets')  # <--- ВАЖЛИВО: Додано це поле
             ).order_by('-total_revenue'),
 
             # 2. Ефективність касирів
@@ -127,11 +127,12 @@ class RepositoryManager:
                 max_ticket_price=Max('tickets__paid_amount')
             ).order_by('train_type'),
 
-            # 5. Продажі по місяцях
+            # 5. Продажі по місяцях (Додано monthly_revenue)
             'sales_by_month': Ticket.objects.annotate(
                 month=ExtractMonth('purchase_date')
             ).values('month').annotate(
-                tickets_sold=Count('id')
+                tickets_sold=Count('id'),
+                monthly_revenue=Sum('paid_amount') # <--- ВАЖЛИВО: Додано це поле
             ).order_by('month'),
 
             # 6. VIP Пасажири
