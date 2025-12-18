@@ -1,8 +1,63 @@
 {% extends 'web/base.html' %}
+
 {% block content %}
-<h1>Тест Швидкодії</h1>
-<form method="get">
-    <button type="submit" name="run" value="1">Запустити Тест (100 запитів)</button>
-</form>
-{% if graph %}{{ graph|safe }}{% endif %}
+<h1>🚀 Тестування Продуктивності БД</h1>
+
+<div style="background: white; padding: 25px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <h3>Параметри експерименту:</h3>
+    <ul>
+        <li><strong>Завдання:</strong> 200 SQL-запитів до бази даних (Ticket select).</li>
+        <li><strong>Метод:</strong> Багатопотоковість (concurrent.futures.ThreadPoolExecutor).</li>
+        <li><strong>Мета:</strong> Знайти баланс між швидкістю та використанням RAM.</li>
+    </ul>
+
+    <form method="get" style="margin-top: 20px;">
+        <button type="submit" name="run" value="1" class="btn" style="background: #28a745; width: 100%; font-size: 18px;">
+            ▶ Запустити аналіз
+        </button>
+    </form>
+</div>
+
+{% if optimal %}
+    <div style="background: #d4edda; color: #155724; padding: 20px; border-radius: 10px; border: 1px solid #c3e6cb; margin-bottom: 20px; text-align: center;">
+        <h2>🏆 Оптимальний результат знайдено!</h2>
+        <p style="font-size: 18px;">
+            Найкраща швидкість досягнута при <strong>{{ optimal.workers }} потоках</strong>. <br>
+            Час виконання: <strong>{{ optimal.time }} сек</strong>.
+        </p>
+    </div>
+
+    <div class="chart-card">
+        {{ graph|safe }}
+    </div>
+
+    <div style="margin-top: 30px; background: white; padding: 20px; border-radius: 10px; border: 1px solid #eee;">
+        <h3>Детальні метрики:</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <thead>
+                <tr style="background: #f8f9fa; border-bottom: 2px solid #dee2e6;">
+                    <th style="padding: 10px; text-align: left;">Потоки</th>
+                    <th style="padding: 10px; text-align: left;">Час (сек)</th>
+                    <th style="padding: 10px; text-align: left;">RAM (MB)</th>
+                    <th style="padding: 10px; text-align: left;">Ефективність</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 10px;">{{ row.workers }}</td>
+                    <td style="padding: 10px;">{{ row.time }}</td>
+                    <td style="padding: 10px;">+{{ row.ram }}</td>
+                    <td style="padding: 10px;">
+                        {% if row.workers == optimal.workers %}
+                            <span style="color: green; font-weight: bold;">★ Найкращий</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+
 {% endblock %}

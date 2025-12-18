@@ -1,7 +1,9 @@
 {% extends 'web/base.html' %}
+
 {% block content %}
-<h2>Список Квитків</h2>
-<a href="{% url 'ticket_add' %}">Створити новий квиток</a>
+<h1>Список квитків</h1>
+<a href="{% url 'ticket_add' %}" class="btn">➕ Продати квиток</a>
+
 <ul>
     {% for ticket in tickets %}
     <li>
@@ -10,23 +12,25 @@
     </li>
     {% endfor %}
 </ul>
+
 {% if is_paginated %}
-  <div class="pagination" style="margin-top: 20px;">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; Перша</a>
-            <a href="?page={{ page_obj.previous_page_number }}">попередня</a>
-        {% endif %}
+    <div class="pagination" style="margin-top: 20px; text-align: center;">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Перша</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Back</a>
+            {% endif %}
 
-        <span class="current">
-            Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}.
+            <span class="current" style="margin: 0 10px; font-weight: bold;">
+                Стор. {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Остання &raquo;</a>
+            {% endif %}
         </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">наступна</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">остання &raquo;</a>
-        {% endif %}
-    </span>
-  </div>
+    </div>
 {% endif %}
+
 {% endblock %}

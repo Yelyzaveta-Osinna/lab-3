@@ -13,16 +13,19 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
 
     # Списки (для перегляду картинок)
-    path('passengers/', views.PassengerListView.as_view(), name='passenger_list'),
+    path('passengers/', login_required(views.PassengerListView.as_view()), name='passenger_list'),
+    path('passenger/add/', login_required(views.PassengerCreateView.as_view()), name='passenger_add'),
+    path('passenger/<int:pk>/edit/', login_required(views.PassengerUpdateView.as_view()), name='passenger_edit'),
+    path('passenger/<int:pk>/delete/', login_required(views.PassengerDeleteView.as_view()), name='passenger_delete'),
     path('trips/', login_required(views.TripListView.as_view()), name='trip_list'),
-    path('cashiers/', views.CashierListView.as_view(), name='cashier_list'),
+    path('cashiers/', login_required(views.CashierListView.as_view()), name='cashier_list'),
 
     # CRUD Tickets (Вимога Лаби)
     path('tickets/', login_required(views.TicketsListView.as_view()), name='tickets_list'),
-    path('tickets/add/', views.TicketsCreateView.as_view(), name='ticket_add'),
-    path('tickets/<int:pk>/', views.TicketsDetailView.as_view(), name='ticket_detail'),
-    path('tickets/<int:pk>/edit/', views.TicketsUpdateView.as_view(), name='ticket_edit'),
-    path('tickets/<int:pk>/delete/', views.TicketsDeleteView.as_view(), name='ticket_delete'),
+    path('tickets/add/', login_required(views.TicketsCreateView.as_view()), name='ticket_add'),
+    path('tickets/<int:pk>/', login_required(views.TicketsDetailView.as_view()), name='ticket_detail'),
+    path('tickets/<int:pk>/edit/', login_required(views.TicketsUpdateView.as_view()), name='ticket_edit'),
+    path('tickets/<int:pk>/delete/', login_required(views.TicketsDeleteView.as_view()), name='ticket_delete'),
 
 
     path('dashboard/', views.dashboard_view, name='dashboard'),

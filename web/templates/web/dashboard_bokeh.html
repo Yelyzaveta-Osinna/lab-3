@@ -3,33 +3,69 @@
 {% block content %}
 {{ resources|safe }}
 
-<h1>Дашборд v2 (Bokeh)</h1>
+<h1>Інтерактивний Дашборд (Bokeh)</h1>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-    
-    <div style="border: 1px solid #eee; padding: 10px;">
-        {% if plots.d1 %} {{ plots.d1|safe }} {{ plots.s1|safe }} {% else %} <p>Немає даних</p> {% endif %}
-    </div>
+<div style="background: white; padding: 25px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <h3 style="margin-top: 0;">🎛️ Панель фільтрів</h3>
+    <form method="get" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; align-items: end;">
+        
+        <div>
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">
+                💰 Мін. прибуток: <span id="rev_val" style="color: #390650;">{{ min_revenue }}</span> грн
+            </label>
+            <input type="range" name="min_revenue" min="0" max="10000" step="100" value="{{ min_revenue }}" 
+                   oninput="document.getElementById('rev_val').innerText = this.value" style="width: 100%;">
+        </div>
 
-    <div style="border: 1px solid #eee; padding: 10px;">
-        {% if plots.d2 %} {{ plots.d2|safe }} {{ plots.s2|safe }} {% else %} <p>Немає даних</p> {% endif %}
-    </div>
+        <div>
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">
+                👥 Мін. завантаженість: <span id="occ_val" style="color: #390650;">{{ min_occupancy }}</span>%
+            </label>
+            <input type="range" name="min_occupancy" min="0" max="100" value="{{ min_occupancy }}" 
+                   oninput="document.getElementById('occ_val').innerText = this.value" style="width: 100%;">
+        </div>
 
-    <div style="border: 1px solid #eee; padding: 10px;">
-        {% if plots.d3 %} {{ plots.d3|safe }} {{ plots.s3|safe }} {% else %} <p>Немає даних</p> {% endif %}
-    </div>
+        <div>
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">
+                🏆 Топ VIP клієнтів: <span id="top_val" style="color: #390650;">{{ top_n }}</span>
+            </label>
+            <input type="range" name="top_n" min="3" max="50" value="{{ top_n }}" 
+                   oninput="document.getElementById('top_val').innerText = this.value" style="width: 100%;">
+        </div>
 
-    <div style="border: 1px solid #eee; padding: 10px;">
-        {% if plots.d4 %} {{ plots.d4|safe }} {{ plots.s4|safe }} {% else %} <p>Немає даних</p> {% endif %}
-    </div>
+        <div>
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">🚆 Тип потяга:</label>
+            <select name="train_type" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="All">Всі типи</option>
+                {% for t in all_types %}
+                    <option value="{{ t }}" {% if t == selected_type %}selected{% endif %}>{{ t }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <div style="border: 1px solid #eee; padding: 10px;">
-        {% if plots.d5 %} {{ plots.d5|safe }} {{ plots.s5|safe }} {% else %} <p>Немає даних</p> {% endif %}
-    </div>
-
-    <div style="border: 1px solid #eee; padding: 10px;">
-        {% if plots.d6 %} {{ plots.d6|safe }} {{ plots.s6|safe }} {% else %} <p>Немає даних</p> {% endif %}
-    </div>
-
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn" style="flex: 1;">Застосувати</button>
+            <a href="{% url 'dashboard_bokeh' %}" class="btn-secondary" style="flex: 1; text-align: center;">Скинути</a>
+        </div>
+    </form>
 </div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 25px;">
+    <div class="chart-card">{% if plots.d1 %}{{ plots.d1|safe }} {{ plots.s1|safe }}{% else %}<p>Немає даних (зменшіть фільтр прибутку)</p>{% endif %}</div>
+    <div class="chart-card">{% if plots.d2 %}{{ plots.d2|safe }} {{ plots.s2|safe }}{% else %}<p>Немає даних</p>{% endif %}</div>
+    <div class="chart-card">{% if plots.d3 %}{{ plots.d3|safe }} {{ plots.s3|safe }}{% else %}<p>Немає даних (зменшіть % завантаженості)</p>{% endif %}</div>
+    <div class="chart-card">{% if plots.d4 %}{{ plots.d4|safe }} {{ plots.s4|safe }}{% else %}<p>Немає даних (змініть тип потяга)</p>{% endif %}</div>
+    <div class="chart-card">{% if plots.d5 %}{{ plots.d5|safe }} {{ plots.s5|safe }}{% else %}<p>Немає даних</p>{% endif %}</div>
+    <div class="chart-card">{% if plots.d6 %}{{ plots.d6|safe }} {{ plots.s6|safe }}{% else %}<p>Немає даних</p>{% endif %}</div>
+</div>
+
+<style>
+    .chart-card { 
+        background: white; 
+        padding: 15px; 
+        border-radius: 10px; 
+        border: 1px solid #eee;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+</style>
 {% endblock %}

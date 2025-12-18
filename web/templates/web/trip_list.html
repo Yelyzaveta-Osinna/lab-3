@@ -11,4 +11,23 @@
         {% endif %}
     </div>
 {% endfor %}
+{% if is_paginated %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="btn-secondary">&laquo; Перша</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn-secondary">Попередня</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn-secondary">Наступна</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn-secondary">Остання &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
 {% endblock %}

@@ -1,13 +1,6 @@
+{% extends 'web/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/min.css' %}">
-    <title>Document</title>
-</head>
-<body>
+{% block content %}
     <div class="container">
         <!-- cashier_list.html -->
         <h1>Касири</h1>
@@ -26,8 +19,26 @@
             {% endfor %}
             
         </table>
-            <a href="{% url 'home' %}">Назад</a>
+        {% if is_paginated %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="btn-secondary">&laquo; Перша</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn-secondary">Попередня</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn-secondary">Наступна</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn-secondary">Остання &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+        <a href="{% url 'home' %}">Назад</a>
     </div>
     <script src="{% static 'js/sortTickets.js' %}"></script>
-</body>
-</html>
+{% endblock %}

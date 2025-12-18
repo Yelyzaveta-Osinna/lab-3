@@ -10,21 +10,24 @@
 </head>
 <body>
     <nav>
-        <a href="{% url 'home' %}">Головна</a> | 
-        <a href="{% url 'tickets_list' %}">Квитки</a> |
-        <a href="{% url 'trip_list' %}">Рейси</a> |
-        <a href="{% url 'dashboard' %}">📊 Графіки v1</a> |
-        <a href="{% url 'dashboard_bokeh' %}">📈 Графіки v2</a> |
-        <a href="{% url 'performance' %}">🚀 Тест</a> |
+    <a href="{% url 'home' %}">Головна</a> | 
+    <a href="{% url 'tickets_list' %}">Квитки</a> |
+    <a href="{% url 'trip_list' %}">Рейси</a> |
+    <a href="{% url 'passenger_list' %}">Пасажири</a> | <a href="{% url 'cashier_list' %}">Касири</a> |    <a href="{% url 'dashboard' %}">📊 Графіки v1</a> |
+    <a href="{% url 'dashboard_bokeh' %}">📈 Графіки v2</a> |
+    <a href="{% url 'performance' %}">🚀 Тест</a> |
+
+    <span style="float:right">
         {% if user.is_authenticated %}
-            Привіт, {{ user.username }} 
+            👤 {{ user.username }} 
             <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                {% csrf_token %} <button>Вийти</button>
+                {% csrf_token %} <button type="submit">Вийти</button>
             </form>
         {% else %}
             <a href="{% url 'login' %}">Вхід</a> | <a href="{% url 'register' %}">Реєстрація</a>
         {% endif %}
-    </nav>
+    </span>
+</nav>
     <hr>
     {% block content %}{% endblock %}
     <script>
